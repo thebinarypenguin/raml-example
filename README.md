@@ -1,4 +1,3 @@
-raml-example
-============
+# RAML Example
 
-An example RAML spec for a simple "Notes" API
+An example [RAML](http://raml.org/) spec for a simple "Notes" API

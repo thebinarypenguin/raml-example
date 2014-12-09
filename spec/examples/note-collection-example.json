@@ -1,0 +1,23 @@
+[
+  {
+    "id": 42,
+    "body": "Hello! I am a sample note and I have two tags",
+    "tags": ["foo", "bar"],
+    "created_at": "2014-11-19T05:22:04.776Z",
+    "updated_at": "2014-11-19T05:22:04.776Z"
+  },
+  {
+    "id": 43,
+    "body": "Greetings! I am also a sample note but I only have one tag.",
+    "tags": ["foo"],
+    "created_at": "2014-11-19T05:22:04.776Z",
+    "updated_at": "2014-11-19T05:22:04.776Z"
+  },
+  {
+    "id": 44,
+    "body": "It is true. I am a sample note but alas I have no tags. Such is life.",
+    "tags": [],
+    "created_at": "2014-11-19T05:22:04.776Z",
+    "updated_at": "2014-11-19T05:22:04.776Z"
+  }
+]

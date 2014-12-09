@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Error",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The error's unique identifier",
+      "type": "string"
+    },
+    "message": {
+      "description": "A human readable error message",
+      "type": "string"
+    }
+  },
+  "required": ["id", "message"]
+}

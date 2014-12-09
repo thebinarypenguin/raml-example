@@ -1,0 +1,14 @@
+[
+  {
+    "name": "foo",
+    "count": 12
+  },
+  {
+    "name": "bar",
+    "count": 4
+  },
+  {
+    "name": "baz",
+    "count": 9
+  }
+]

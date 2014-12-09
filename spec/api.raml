@@ -1,0 +1,285 @@
+#%RAML 0.8
+title: Notes
+version: v1
+mediaType:  application/json
+
+resourceTypes:
+  - collection:
+      description: A Collection of <<resourcePathName>>
+
+      get:
+        description: Retrieve all <<resourcePathName>>
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+      post:
+        description: Create a new <<resourcePathName|!singularize>>
+        body:
+          # schema: (Defined in the resource)
+          # example: (Defined in the resource)
+        responses:
+          201:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          400:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-400-example.json
+          422:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-422-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+  - collectionItem:
+      description: A <<resourcePathName|!singularize>> entity
+
+      get:
+        description: |
+          Retrieve <<resourcePathName|!singularize>> where <<key>> equals **{<<key>>}**
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          404:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-404-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+      put:
+        description: |
+          Completely update <<resourcePathName|!singularize>> where <<key>> equals **{<<key>>}**
+        body:
+          # schema: (Defined in the resource)
+          # example: (Defined in the resource)
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          400:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-400-example.json
+          404:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-404-example.json
+          422:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-422-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+      patch:
+        description: |
+          Partially update <<resourcePathName|!singularize>> where <<key>> equals **{<<key>>}**
+        body:
+          # schema: (Defined in the resource)
+          # example: (Defined in the resource)
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          400:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-400-example.json
+          404:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-404-example.json
+          422:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-422-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+      delete:
+        description: |
+          Delete <<resourcePathName|!singularize>> where <<key>> equals **{<<key>>}**
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          404:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-404-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+  - readOnlyCollection:
+      description: A read-only collection of <<resourcePathName>>
+
+      get:
+        description: Retrieve all <<resourcePathName>>
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+  - readOnlyCollectionItem:
+      description: A read-only <<resourcePathName|!singularize>> entity
+
+      get:
+        description: |
+          Retrieve <<resourcePathName|!singularize>> where <<key>> equals **{<<key>>}**
+        responses:
+          200:
+            body:
+              # schema: (Defined in the resource)
+              # example: (Defined in the resource)
+          404:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/client-error-404-example.json
+          500:
+            body:
+              schema: !include schemas/error-schema.json
+              example: !include examples/server-error-500-example.json
+
+traits:
+  - paginated:
+      queryParameters:
+        page:
+          type: integer
+          description: Which page of results to return
+          required: false
+          minimum: 1
+          default: 1
+
+        per_page:
+          type: integer
+          description: Number of items on each page
+          required: false
+          minimum: 10
+          maximum: 50
+          default: 20
+
+  - filterable:
+      queryParameters:
+        tags:
+          type: string
+          description: Comma seperated list of tags
+          example: important,private
+          required: false
+
+/notes:
+  type: collection
+
+  get:
+    is: [paginated, filterable]
+    responses:
+      200:
+        body:
+          schema: !include schemas/note-collection-schema.json
+          example: !include examples/note-collection-example.json
+
+  post:
+    body:
+      schema: !include schemas/note-create-schema.json
+      example: !include examples/note-create-example.json
+    responses:
+      201:
+        body:
+          schema: !include schemas/note-schema.json
+          example: !include examples/note-example.json
+
+  /{noteID}:
+    type:
+      collectionItem:
+        key: noteID
+    description: |
+      A note entity.
+
+      * Creating a note with an empty body is not allowed and will return "422 Unprocessable Entity".
+      * Updating a note to have an empty body is not allowed and will return "422 Unprocessable Entity".
+
+    get:
+      responses:
+        200:
+          body:
+            schema: !include schemas/note-schema.json
+            example: !include examples/note-example.json
+
+    put:
+      body:
+        schema: !include schemas/note-update-full-schema.json
+        example: !include examples/note-update-full-example.json
+      responses:
+        200:
+          body:
+            schema: !include schemas/note-schema.json
+            example: !include examples/note-example.json
+
+    patch:
+      body:
+        schema: !include schemas/note-update-partial-schema.json
+        example: !include examples/note-update-partial-example.json
+      responses:
+        200:
+          body:
+            schema: !include schemas/note-schema.json
+            example: !include examples/note-example.json
+
+    delete:
+      responses:
+        200:
+          body:
+            schema: !include schemas/note-schema.json
+            example: !include examples/note-example.json
+
+/tags:
+  type: readOnlyCollection
+
+  get:
+    is: [paginated]
+    responses:
+      200:
+        body:
+          schema: !include schemas/tag-collection-schema.json
+          example: !include examples/tag-collection-example.json
+
+  /{tagName}:
+    type:
+      readOnlyCollectionItem:
+        key: tagName
+
+    get:
+      responses:
+        200:
+          body:
+            schema: !include schemas/tag-schema.json
+            example: !include examples/tag-example.json
