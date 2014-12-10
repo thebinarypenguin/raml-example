@@ -3,6 +3,6 @@
   "title": "Note Collection",
   "type": "array",
   "items": {
-    "$ref": "./note-schema.json#"
+    "$ref": "note-schema.json#"
   }
 }
